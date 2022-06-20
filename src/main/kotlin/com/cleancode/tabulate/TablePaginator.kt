@@ -6,8 +6,8 @@ import kotlin.math.min
 class TablePaginator(var currentPage: Int = 0, var pageSize: Int = 3) {
 
     fun buildPaginatedTable(table: List<String>): List<String> {
-        val paginatedTable = ArrayList(table.subList(0, 2))
-        val tableContent = table.subList(2, table.size)
+        val paginatedTable = arrayListOf(table[0])
+        val tableContent = table.subList(1, table.size)
         val start = startIndex(tableContent.size)
         val end = endIndex(tableContent.size)
         paginatedTable.addAll(tableContent.subList(start, end))

@@ -1,5 +1,7 @@
 package com.cleancode.tabulate
 
+const val DEFAULT_PAGE_SIZE = 3
+
 class App {
     fun mapUserInteraction(userInput: String): UserAction {
         return when (userInput) {
@@ -17,6 +19,12 @@ class App {
 
     fun hasCsvFileArg(args: Array<String>) = args.isNotEmpty() && args[0].contains(".csv")
 
+    fun parsePageSize(args: Array<String>): Int {
+        if (args.isEmpty() || args.size < 2) return DEFAULT_PAGE_SIZE
+
+        return args[1].toIntOrNull() ?: DEFAULT_PAGE_SIZE
+    }
+
     fun readUserInput() = readln().lowercase()
 }
 
@@ -27,20 +35,22 @@ fun main(args: Array<String>) {
         return
     }
     val filename = args[0]
+    val pageSize = app.parsePageSize(args)
 
     val csvReader = CSVReader()
-    val csvTabellieren = CSVTabulate()
-    val tablePaginator = TablePaginator()
     val lines = csvReader.readFile(filename) ?: return
-    val table = csvTabellieren.tabulate(lines)
 
+    val csvTabulate = CSVTabulate()
+    val tablePaginator = TablePaginator(pageSize = pageSize)
     var resume = true
     while (resume) {
-        tablePaginator.buildPaginatedTable(table).printTable()
+        tablePaginator.buildPaginatedTable(lines).let { paginatedLines ->
+            csvTabulate.tabulate(paginatedLines).printTable()
+        }
         val userInput = app.readUserInput()
         val userAction = app.mapUserInteraction(userInput)
+        tablePaginator.handleUserAction(userAction, lines)
         resume = app.resumable(userAction)
-        tablePaginator.handleUserAction(userAction, table)
     }
 }
 

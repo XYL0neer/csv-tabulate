@@ -100,4 +100,31 @@ class AppTest {
 
         Assertions.assertEquals(UserAction.CURRENT, result)
     }
+
+    @Test
+    fun parsePageSize_providedValidInt_returnsProvidedInt() {
+        val args = arrayOf("hello.csv", "10")
+
+        val result = sut.parsePageSize(args)
+
+        Assertions.assertEquals(10, result)
+    }
+
+    @Test
+    fun parsePageSize_providedNotParsableString_returnsDefaultPageSize() {
+        val args = arrayOf("hello.csv", "Definitely not a number!")
+
+        val result = sut.parsePageSize(args)
+
+        Assertions.assertEquals(DEFAULT_PAGE_SIZE, result)
+    }
+
+    @Test
+    fun parsePageSize_dontProvideAPageSize_returnsDefaultPageSize() {
+        val args = arrayOf("hello.csv")
+
+        val result = sut.parsePageSize(args)
+
+        Assertions.assertEquals(DEFAULT_PAGE_SIZE, result)
+    }
 }

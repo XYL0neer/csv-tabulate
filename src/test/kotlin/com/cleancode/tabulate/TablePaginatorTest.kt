@@ -7,19 +7,18 @@ import org.junit.jupiter.api.Test
 class TablePaginatorTest {
     val sut = TablePaginator()
 
-    val table = listOf(
-        "|Name     |Age|City     |",
-        "+---------+---+---------+",
-        "|Peter    |42 |New York |",
-        "|Paul     |57 |London   |",
-        "|Mary     |35 |Munich   |",
-        "|Jaques   |66 |Paris    |",
-        "|Yuri     |23 |Moscow   |",
-        "|Stephanie|47 |Stockholm|",
-        "|Nadia    |29 |Madrid   |",
+    val lines = listOf(
+        "Name;Age;City",
+        "Peter;42;New York",
+        "Paul;57;London",
+        "Mary;35;Munich",
+        "Jaques;66;Paris",
+        "Yuri;23;Moscow",
+        "Stephanie;47;Stockholm",
+        "Nadia;29;Madrid",
     )
 
-    val tableContentSize = table.size - 2
+    val tableContentSize = lines.size - 1
 
     @BeforeEach
     fun before() {
@@ -77,14 +76,14 @@ class TablePaginatorTest {
     fun handleUserAction_HandleUserActionFirst_SetToFirstPage() {
         sut.currentPage = 2
 
-        sut.handleUserAction(UserAction.FIRST, table)
+        sut.handleUserAction(UserAction.FIRST, lines)
 
         Assertions.assertEquals(0, sut.currentPage)
     }
 
     @Test
     fun handleUserAction_HandleUserActionNext_IncrementPage() {
-        sut.handleUserAction(UserAction.NEXT, table)
+        sut.handleUserAction(UserAction.NEXT, lines)
 
         Assertions.assertEquals(1, sut.currentPage)
     }
@@ -93,21 +92,21 @@ class TablePaginatorTest {
     fun handleUserAction_HandleUserActionPrevious_DecrementPage() {
         sut.currentPage = 2
 
-        sut.handleUserAction(UserAction.PREVIOUS, table)
+        sut.handleUserAction(UserAction.PREVIOUS, lines)
 
         Assertions.assertEquals(1, sut.currentPage)
     }
 
     @Test
     fun handleUserAction_HandleUserActionLast_SetToLastPage() {
-        sut.handleUserAction(UserAction.LAST, table)
+        sut.handleUserAction(UserAction.LAST, lines)
 
         Assertions.assertEquals(2, sut.currentPage)
     }
 
     @Test
     fun handleUserAction_HandleUserActionOther_NothingChanges() {
-        sut.handleUserAction(UserAction.CURRENT, table)
+        sut.handleUserAction(UserAction.CURRENT, lines)
 
         Assertions.assertEquals(0, sut.currentPage)
         Assertions.assertEquals(3, sut.pageSize)
@@ -147,25 +146,23 @@ class TablePaginatorTest {
 
     @Test
     fun buildPaginatedTable_BuildFirstPage_ReturnsFirstPage() {
-        val result = sut.buildPaginatedTable(table)
+        val result = sut.buildPaginatedTable(lines)
 
-        Assertions.assertEquals(5, result.size)
-        Assertions.assertEquals("|Name     |Age|City     |", result[0])
-        Assertions.assertEquals("+---------+---+---------+", result[1])
-        Assertions.assertEquals("|Peter    |42 |New York |", result[2])
-        Assertions.assertEquals("|Paul     |57 |London   |", result[3])
-        Assertions.assertEquals("|Mary     |35 |Munich   |", result[4])
+        Assertions.assertEquals(4, result.size)
+        Assertions.assertEquals("Name;Age;City", result[0])
+        Assertions.assertEquals("Peter;42;New York", result[1])
+        Assertions.assertEquals("Paul;57;London", result[2])
+        Assertions.assertEquals("Mary;35;Munich", result[3])
     }
 
     @Test
     fun buildPaginatedTable_BuildLastPage_ReturnsLastPage() {
         sut.currentPage = 2
 
-        val result = sut.buildPaginatedTable(table)
+        val result = sut.buildPaginatedTable(lines)
 
-        Assertions.assertEquals(3, result.size)
-        Assertions.assertEquals("|Name     |Age|City     |", result[0])
-        Assertions.assertEquals("+---------+---+---------+", result[1])
-        Assertions.assertEquals("|Nadia    |29 |Madrid   |", result[2])
+        Assertions.assertEquals(2, result.size)
+        Assertions.assertEquals("Name;Age;City", result[0])
+        Assertions.assertEquals("Nadia;29;Madrid", result[1])
     }
 }
