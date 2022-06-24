@@ -7,7 +7,7 @@ const val TITLE_LINES = 1
 class TablePaginator(var currentPageIndex: Int = 0, var pageSize: Int = 3) {
 
     fun buildPaginatedTable(lines: List<String>): List<String> {
-        val paginatedTable = lines.take(TITLE_LINES) as ArrayList<String>
+        val paginatedTable = lines.take(TITLE_LINES).toMutableList()
         val tableContent = lines.subList(TITLE_LINES, lines.size)
         val start = startIndex(tableContent.size)
         val end = endIndex(tableContent.size)
