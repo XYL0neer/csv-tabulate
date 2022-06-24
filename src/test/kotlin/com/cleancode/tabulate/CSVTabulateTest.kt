@@ -7,7 +7,7 @@ class CSVTabulateTest {
     val sut = CSVTabulate()
 
     @Test
-    fun tabelliere_ValidCSV_ValidTable() {
+    fun `tabelliere ValidCSV ValidTable`() {
         val validString = listOf(
             "Name;Strasse;Ort;Alter",
             "Peter Pan;Am Hang 5;12345 Einsam;42",
@@ -22,7 +22,7 @@ class CSVTabulateTest {
     }
 
     @Test
-    fun parseRows_2LinesWit4Columns_TableWith2Elements() {
+    fun `parseRows 2LinesWit4Columns TableWith2Elements`() {
         val validLines = listOf(
             "A;B;C;D",
             "a;b;c;d"
@@ -36,7 +36,7 @@ class CSVTabulateTest {
     }
 
     @Test
-    fun parseRows_2LinesIgnoreTooShortOrLongRows_TableWith2ElementsAnd2Ignored() {
+    fun `parseRows 2LinesIgnoreTooShortOrLongRows TableWith2ElementsAnd2Ignored`() {
         val invalidLineLengths = listOf(
             "A;B;C;D",
             "a;b;c;d",
@@ -54,7 +54,7 @@ class CSVTabulateTest {
     }
 
     @Test
-    fun parseRows_emptyList_EmptyTable() {
+    fun `parseRows emptyList EmptyTable`() {
         val emptyList = emptyList<String>()
 
         val result = sut.parseRows(emptyList)
@@ -63,7 +63,7 @@ class CSVTabulateTest {
     }
 
     @Test
-    fun determineColumnWidths_TableWithAllWidth1_ColumnWidthEveryIs1() {
+    fun `determineColumnWidths TableWithAllWidth1 ColumnWidthEveryIs1`() {
         val tableWidthIsOne = arrayListOf(arrayListOf("A", "B", "C"), arrayListOf("a", "b", "c"))
 
         val result = sut.determineColumnWidths(tableWidthIsOne)
@@ -75,7 +75,7 @@ class CSVTabulateTest {
     }
 
     @Test
-    fun determineColumnWidths_TableWithDifferentWidths_CorrectColumnWidth() {
+    fun `determineColumnWidths TableWithDifferentWidths CorrectColumnWidth`() {
         val differentTableWidths = arrayListOf(arrayListOf("A", "B", "C"), arrayListOf("a", "bb", "cccc"))
 
         val result = sut.determineColumnWidths(differentTableWidths)
@@ -87,7 +87,7 @@ class CSVTabulateTest {
     }
 
     @Test
-    fun determineColumnWidths_EmptyList_EmptyLists() {
+    fun `determineColumnWidths EmptyList EmptyLists`() {
         val emptyTable = arrayListOf<ArrayList<String>>()
 
         val result = sut.determineColumnWidths(emptyTable)
@@ -96,7 +96,7 @@ class CSVTabulateTest {
     }
 
     @Test
-    fun padColumnsInTable_tableAndColumnList_PaddedTable() {
+    fun `padColumnsInTable tableAndColumnList PaddedTable`() {
         val table = arrayListOf(arrayListOf("A", "B", "C"), arrayListOf("a", "bb", "cccc"))
         val columnWidth = arrayOf(1, 2, 4)
 
@@ -108,7 +108,7 @@ class CSVTabulateTest {
     }
 
     @Test
-    fun padColumnsInTable_emptyList_NoExceptionIsThrown() {
+    fun `padColumnsInTable emptyList NoExceptionIsThrown`() {
         val table = arrayListOf<ArrayList<String>>()
         val columnWidth = emptyArray<Int>()
 
@@ -118,7 +118,7 @@ class CSVTabulateTest {
     }
 
     @Test
-    fun mapTableToRows_2Rows_MappedTableRowsWithColumnSeperators() {
+    fun `mapTableToRows 2Rows MappedTableRowsWithColumnSeperators`() {
         val table = arrayListOf(arrayListOf("A", "B ", "C   "), arrayListOf("a", "bb", "cccc"))
 
         val result = sut.mapTableToRows(table)
@@ -129,7 +129,7 @@ class CSVTabulateTest {
     }
 
     @Test
-    fun mapTableToRows_emptyTable_NoExceptionIsThrown() {
+    fun `mapTableToRows emptyTable NoExceptionIsThrown`() {
         val emptyTable = arrayListOf<ArrayList<String>>()
 
         val result = sut.mapTableToRows(emptyTable)
@@ -138,7 +138,7 @@ class CSVTabulateTest {
     }
 
     @Test
-    fun addSeperatorToRows_2Rows_AddedTitleRowSeperator() {
+    fun `addSeperatorToRows 2Rows AddedTitleRowSeperator`() {
         val rows = arrayListOf("|A|B |C   |", "|a|bb|cccc|")
         val columnWidth = arrayOf(1,2,4)
 
@@ -149,7 +149,7 @@ class CSVTabulateTest {
     }
 
     @Test
-    fun addSeperatorToRows_emptyRows_NoExceptionIsThrown() {
+    fun `addSeperatorToRows emptyRows NoExceptionIsThrown`() {
         val emptyRows = arrayListOf<String>()
         val columnWidth = emptyArray<Int>()
 

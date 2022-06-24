@@ -22,106 +22,106 @@ class TablePaginatorTest {
 
     @BeforeEach
     fun before() {
-        sut.currentPage = 0
+        sut.currentPageIndex = 0
         sut.pageSize = 3
     }
 
     @Test
-    fun incrementPage_IncrementCurrentPage_IncrementedCurrentPage() {
+    fun `incrementPage IncrementCurrentPage IncrementedCurrentPage`() {
         sut.incrementPage(tableContentSize)
 
-        Assertions.assertEquals(1, sut.currentPage)
+        Assertions.assertEquals(1, sut.currentPageIndex)
     }
 
     @Test
-    fun incrementPage_CannotIncrementOutOfTableSize_CurrentPageIsNotIncremented() {
-        sut.currentPage = 2
+    fun `incrementPage CannotIncrementOutOfTableSize CurrentPageIsNotIncremented`() {
+        sut.currentPageIndex = 2
 
         sut.incrementPage(tableContentSize)
 
-        Assertions.assertEquals(2, sut.currentPage)
+        Assertions.assertEquals(2, sut.currentPageIndex)
     }
 
     @Test
-    fun decrementPage_DecrementCurrentPage_DecrementedCurrentPage() {
-        sut.currentPage = 2
+    fun `decrementPage DecrementCurrentPage DecrementedCurrentPage`() {
+        sut.currentPageIndex = 2
 
         sut.decrementPage()
 
-        Assertions.assertEquals(1, sut.currentPage)
+        Assertions.assertEquals(1, sut.currentPageIndex)
     }
 
     @Test
-    fun decrementPage_CannotDecrementOutOfTableSize_DerrentPageIsNotDecremented() {
+    fun `decrementPage CannotDecrementOutOfTableSize DerrentPageIsNotDecremented`() {
         sut.decrementPage()
 
-        Assertions.assertEquals(0, sut.currentPage)
+        Assertions.assertEquals(0, sut.currentPageIndex)
     }
 
     @Test
-    fun setLastPage_SetCurrentPageToLastPage_CurrentPageIsLastPage() {
+    fun `setLastPage SetCurrentPageToLastPage CurrentPageIsLastPage`() {
         sut.setLastPage(tableContentSize)
 
-        Assertions.assertEquals(2, sut.currentPage)
+        Assertions.assertEquals(2, sut.currentPageIndex)
     }
 
     @Test
-    fun setFirstPage_SetCurrentPageToFirstPage_CurrentPageIsFirstPage() {
+    fun `setFirstPage SetCurrentPageToFirstPage CurrentPageIsFirstPage`() {
         sut.setFirstPage()
 
-        Assertions.assertEquals(0, sut.currentPage)
+        Assertions.assertEquals(0, sut.currentPageIndex)
     }
 
     @Test
-    fun handleUserAction_HandleUserActionFirst_SetToFirstPage() {
-        sut.currentPage = 2
+    fun `handleUserAction HandleUserActionFirst SetToFirstPage`() {
+        sut.currentPageIndex = 2
 
         sut.handleUserAction(UserAction.FIRST, lines)
 
-        Assertions.assertEquals(0, sut.currentPage)
+        Assertions.assertEquals(0, sut.currentPageIndex)
     }
 
     @Test
-    fun handleUserAction_HandleUserActionNext_IncrementPage() {
+    fun `handleUserAction HandleUserActionNext IncrementPage`() {
         sut.handleUserAction(UserAction.NEXT, lines)
 
-        Assertions.assertEquals(1, sut.currentPage)
+        Assertions.assertEquals(1, sut.currentPageIndex)
     }
 
     @Test
-    fun handleUserAction_HandleUserActionPrevious_DecrementPage() {
-        sut.currentPage = 2
+    fun `handleUserAction HandleUserActionPrevious DecrementPage`() {
+        sut.currentPageIndex = 2
 
         sut.handleUserAction(UserAction.PREVIOUS, lines)
 
-        Assertions.assertEquals(1, sut.currentPage)
+        Assertions.assertEquals(1, sut.currentPageIndex)
     }
 
     @Test
-    fun handleUserAction_HandleUserActionLast_SetToLastPage() {
+    fun `handleUserAction HandleUserActionLast SetToLastPage`() {
         sut.handleUserAction(UserAction.LAST, lines)
 
-        Assertions.assertEquals(2, sut.currentPage)
+        Assertions.assertEquals(2, sut.currentPageIndex)
     }
 
     @Test
-    fun handleUserAction_HandleUserActionOther_NothingChanges() {
+    fun `handleUserAction HandleUserActionOther NothingChanges`() {
         sut.handleUserAction(UserAction.CURRENT, lines)
 
-        Assertions.assertEquals(0, sut.currentPage)
+        Assertions.assertEquals(0, sut.currentPageIndex)
         Assertions.assertEquals(3, sut.pageSize)
     }
 
     @Test
-    fun startIndex_StartIndexOfPage0_ReturnIndex0() {
+    fun `startIndex StartIndexOfPage0 ReturnIndex0`() {
         val result = sut.startIndex(tableContentSize)
 
         Assertions.assertEquals(0, result)
     }
 
     @Test
-    fun startIndex_StartIndexOfPage1_ReturnIndex3() {
-        sut.currentPage = 1
+    fun `startIndex StartIndexOfPage1 ReturnIndex3`() {
+        sut.currentPageIndex = 1
 
         val result = sut.startIndex(tableContentSize)
 
@@ -129,15 +129,15 @@ class TablePaginatorTest {
     }
 
     @Test
-    fun endIndex_EndIndexOfPage0_ReturnIndex3() {
+    fun `endIndex EndIndexOfPage0 ReturnIndex3`() {
         val result = sut.endIndex(tableContentSize)
 
         Assertions.assertEquals(3, result)
     }
 
     @Test
-    fun endIndex_EndIndexWhenRemainingTableIsSmallerThanPageSize_ReturnIndex7() {
-        sut.currentPage = 2
+    fun `endIndex EndIndexWhenRemainingTableIsSmallerThanPageSize ReturnIndex7`() {
+        sut.currentPageIndex = 2
 
         val result = sut.endIndex(tableContentSize)
 
@@ -145,7 +145,7 @@ class TablePaginatorTest {
     }
 
     @Test
-    fun buildPaginatedTable_BuildFirstPage_ReturnsFirstPage() {
+    fun `buildPaginatedTable BuildFirstPage ReturnsFirstPage`() {
         val result = sut.buildPaginatedTable(lines)
 
         Assertions.assertEquals(4, result.size)
@@ -156,8 +156,8 @@ class TablePaginatorTest {
     }
 
     @Test
-    fun buildPaginatedTable_BuildLastPage_ReturnsLastPage() {
-        sut.currentPage = 2
+    fun `buildPaginatedTable BuildLastPage ReturnsLastPage`() {
+        sut.currentPageIndex = 2
 
         val result = sut.buildPaginatedTable(lines)
 

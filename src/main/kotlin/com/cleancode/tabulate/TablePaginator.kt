@@ -2,24 +2,25 @@ package com.cleancode.tabulate
 
 import kotlin.math.min
 
+const val TITLE_LINES = 1
 
-class TablePaginator(var currentPage: Int = 0, var pageSize: Int = 3) {
+class TablePaginator(var currentPageIndex: Int = 0, var pageSize: Int = 3) {
 
-    fun buildPaginatedTable(table: List<String>): List<String> {
-        val paginatedTable = arrayListOf(table[0])
-        val tableContent = table.subList(1, table.size)
+    fun buildPaginatedTable(lines: List<String>): List<String> {
+        val paginatedTable = lines.take(TITLE_LINES) as ArrayList<String>
+        val tableContent = lines.subList(TITLE_LINES, lines.size)
         val start = startIndex(tableContent.size)
         val end = endIndex(tableContent.size)
         paginatedTable.addAll(tableContent.subList(start, end))
         return paginatedTable
     }
 
-    fun startIndex(tableSize: Int) = min(currentPage * pageSize, tableSize)
+    fun startIndex(tableSize: Int) = min(currentPageIndex * pageSize, tableSize)
 
-    fun endIndex(tableSize: Int) = min(pageSize + currentPage * pageSize, tableSize)
+    fun endIndex(tableSize: Int) = min(pageSize + currentPageIndex * pageSize, tableSize)
 
     fun handleUserAction(action: UserAction, table: List<String>) {
-        val tableContentSize = table.subList(2, table.size).size
+        val tableContentSize = table.size - TITLE_LINES
         when (action) {
             UserAction.FIRST -> setFirstPage()
             UserAction.LAST -> setLastPage(tableContentSize)
@@ -30,22 +31,22 @@ class TablePaginator(var currentPage: Int = 0, var pageSize: Int = 3) {
     }
 
     fun setFirstPage() {
-        this.currentPage = 0
+        this.currentPageIndex = 0
     }
 
     fun decrementPage() {
-        if (this.currentPage > 0) {
-            this.currentPage--
+        if (this.currentPageIndex > 0) {
+            this.currentPageIndex--
         }
     }
 
     fun setLastPage(tableSize: Int) {
-        this.currentPage = tableSize / pageSize
+        this.currentPageIndex = tableSize / pageSize
     }
 
     fun incrementPage(tableSize: Int) {
-        if (tableSize / pageSize > this.currentPage) {
-            this.currentPage++
+        if (this.currentPageIndex < tableSize / pageSize) {
+            this.currentPageIndex++
         }
     }
 

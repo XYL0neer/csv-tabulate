@@ -4,126 +4,83 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
 class AppTest {
-    val sut = App()
 
     @Test
-    fun resumable_AnyUserAction_ReturnsTrue() {
-        val result = sut.resumable(UserAction.FIRST)
-
-        Assertions.assertEquals(true, result)
-    }
-
-    @Test
-    fun resumable_StopUserAction_ReturnsFalse() {
-        val result = sut.resumable(UserAction.STOP)
-
-        Assertions.assertEquals(false, result)
-    }
-
-    @Test
-    fun hasCsvFileArg_ProvidedCsvFile_ReturnsTrue() {
+    fun `hasCsvFileArg ProvidedCsvFile ReturnsTrue`() {
         val args = arrayOf("hello.csv")
+        val sut = App(args)
 
-        val result = sut.hasCsvFileArg(args)
+        val result = sut.hasCsvFileArg()
 
         Assertions.assertEquals(true, result)
     }
 
     @Test
-    fun hasCsvFileArg_ProvidedNonCsvFile_ReturnsFalse() {
+    fun `hasCsvFileArg ProvidedNonCsvFile ReturnsFalse`() {
         val args = arrayOf("hello.pdf")
+        val sut = App(args)
 
-        val result = sut.hasCsvFileArg(args)
+        val result = sut.hasCsvFileArg()
 
         Assertions.assertEquals(false, result)
     }
 
     @Test
-    fun hasCsvFileArg_ProvidedNoArgs_ReturnsFalse() {
+    fun `hasCsvFileArg ProvidedNoArgs ReturnsFalse`() {
         val args = emptyArray<String>()
+        val sut = App(args)
 
-        val result = sut.hasCsvFileArg(args)
+        val result = sut.hasCsvFileArg()
 
         Assertions.assertEquals(false, result)
     }
 
     @Test
-    fun mapUserInteraction_inputIsf_UserActionFirst() {
-        val userInput = "f"
+    fun `getFilenameFromArgs ProvidedCsvFile ReturnsFilename`() {
+        val args = arrayOf("hello.csv")
+        val sut = App(args)
 
-        val result = sut.mapUserInteraction(userInput)
+        val result = sut.getFilenameFromArgs()
 
-        Assertions.assertEquals(UserAction.FIRST, result)
+        Assertions.assertEquals("hello.csv", result)
     }
 
     @Test
-    fun mapUserInteraction_inputIsp_UserActionPrevious() {
-        val userInput = "p"
+    fun `getFilenameFromArgs ProvidedNonCsvFile ReturnsNull`() {
+        val args = arrayOf("hello")
+        val sut = App(args)
 
-        val result = sut.mapUserInteraction(userInput)
+        val result = sut.getFilenameFromArgs()
 
-        Assertions.assertEquals(UserAction.PREVIOUS, result)
+        Assertions.assertNull(result)
     }
 
     @Test
-    fun mapUserInteraction_inputIsn_UserActionNext() {
-        val userInput = "n"
-
-        val result = sut.mapUserInteraction(userInput)
-
-        Assertions.assertEquals(UserAction.NEXT, result)
-    }
-
-    @Test
-    fun mapUserInteraction_inputIsl_UserActionLast() {
-        val userInput = "l"
-
-        val result = sut.mapUserInteraction(userInput)
-
-        Assertions.assertEquals(UserAction.LAST, result)
-    }
-
-    @Test
-    fun mapUserInteraction_inputIse_UserActionStop() {
-        val userInput = "e"
-
-        val result = sut.mapUserInteraction(userInput)
-
-        Assertions.assertEquals(UserAction.STOP, result)
-    }
-
-    @Test
-    fun mapUserInteraction_inputIsx_UserActionCurrent() {
-        val userInput = "x"
-
-        val result = sut.mapUserInteraction(userInput)
-
-        Assertions.assertEquals(UserAction.CURRENT, result)
-    }
-
-    @Test
-    fun parsePageSize_providedValidInt_returnsProvidedInt() {
+    fun `getPageSizeFromArgs providedValidInt returnsProvidedInt`() {
         val args = arrayOf("hello.csv", "10")
+        val sut = App(args)
 
-        val result = sut.parsePageSize(args)
+        val result = sut.getPageSizeFromArgs()
 
         Assertions.assertEquals(10, result)
     }
 
     @Test
-    fun parsePageSize_providedNotParsableString_returnsDefaultPageSize() {
+    fun `getPageSizeFromArgs providedNotParsableString returnsDefaultPageSize`() {
         val args = arrayOf("hello.csv", "Definitely not a number!")
+        val sut = App(args)
 
-        val result = sut.parsePageSize(args)
+        val result = sut.getPageSizeFromArgs()
 
         Assertions.assertEquals(DEFAULT_PAGE_SIZE, result)
     }
 
     @Test
-    fun parsePageSize_dontProvideAPageSize_returnsDefaultPageSize() {
+    fun `getPageSizeFromArgs dontProvideAPageSize returnsDefaultPageSize`() {
         val args = arrayOf("hello.csv")
+        val sut = App(args)
 
-        val result = sut.parsePageSize(args)
+        val result = sut.getPageSizeFromArgs()
 
         Assertions.assertEquals(DEFAULT_PAGE_SIZE, result)
     }

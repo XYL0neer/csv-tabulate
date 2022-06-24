@@ -7,7 +7,7 @@ class CSVReaderTest {
     val sut = CSVReader()
 
     @Test
-    fun readFile_readExistingFile_ListOfLines() {
+    fun `readFile readExistingFile ListOfLines`() {
         val validFilename = "hello.csv"
 
         val result = sut.readFile(validFilename)
@@ -18,7 +18,7 @@ class CSVReaderTest {
     }
 
     @Test
-    fun readFile_readNonExistingFile_NoExceptionReturnsNull() {
+    fun `readFile readNonExistingFile NoExceptionReturnsNull`() {
         val validFilename = "world.csv"
 
         val result = sut.readFile(validFilename)

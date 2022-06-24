@@ -8,7 +8,7 @@ Download latest compiled jar from [release](https://github.com/XYL0neer/csv-tabu
 Run the application with following command:
 
 ```bash
-java -jar csv-tabulate-<version>.jar <csv-file>
+java -jar csv-tabulate-<version>.jar <csv-file> <page-size>
 
 # Example
 java -jar csv-tabulate-0.1.0.jar ~/Documents/hello.csv
