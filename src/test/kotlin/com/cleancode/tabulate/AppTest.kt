@@ -84,4 +84,22 @@ class AppTest {
 
         Assertions.assertEquals(DEFAULT_PAGE_SIZE, result)
     }
+
+    @Test
+    fun `resumable AnyUserAction ReturnsTrue`() {
+        val sut = App(emptyArray())
+
+        val result = sut.resumable(UserAction.FIRST)
+
+        Assertions.assertEquals(true, result)
+    }
+
+    @Test
+    fun `resumable StopUserAction ReturnsFalse`() {
+        val sut = App(emptyArray())
+
+        val result = sut.resumable(UserAction.STOP)
+
+        Assertions.assertEquals(false, result)
+    }
 }

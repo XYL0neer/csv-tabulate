@@ -165,4 +165,20 @@ class TablePaginatorTest {
         Assertions.assertEquals("Name;Age;City", result[0])
         Assertions.assertEquals("Nadia;29;Madrid", result[1])
     }
+
+    @Test
+    fun `getPageIndexed 9Elements 1of3`() {
+        val result = sut.getPageIndex(9)
+
+        Assertions.assertEquals(1, result.first)
+        Assertions.assertEquals(3, result.second)
+    }
+
+    @Test
+    fun `getPageIndexed 7ElementsGetRoundUp 1of3`() {
+        val result = sut.getPageIndex(7)
+
+        Assertions.assertEquals(1, result.first)
+        Assertions.assertEquals(3, result.second)
+    }
 }

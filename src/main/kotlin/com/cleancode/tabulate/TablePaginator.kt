@@ -1,5 +1,6 @@
 package com.cleancode.tabulate
 
+import kotlin.math.ceil
 import kotlin.math.min
 
 const val TITLE_LINES = 1
@@ -49,5 +50,8 @@ class TablePaginator(var currentPageIndex: Int = 0, var pageSize: Int = 3) {
             this.currentPageIndex++
         }
     }
+
+    fun getPageIndex(tableSize: Int): Pair<Int, Int> =
+        Pair(currentPageIndex + 1, ceil(tableSize.toDouble() / pageSize).toInt())
 
 }

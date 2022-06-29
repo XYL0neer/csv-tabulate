@@ -6,19 +6,7 @@ import org.junit.jupiter.api.Test
 class UITest {
     val sut = UI()
 
-    @Test
-    fun `resumable AnyUserAction ReturnsTrue`() {
-        val result = sut.resumable(UserAction.FIRST)
 
-        Assertions.assertEquals(true, result)
-    }
-
-    @Test
-    fun `resumable StopUserAction ReturnsFalse`() {
-        val result = sut.resumable(UserAction.STOP)
-
-        Assertions.assertEquals(false, result)
-    }
 
     @Test
     fun `mapUserInteraction inputIsFirst UserActionFirst`() {
