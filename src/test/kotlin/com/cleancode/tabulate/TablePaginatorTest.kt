@@ -76,14 +76,14 @@ class TablePaginatorTest {
     fun `handleUserAction HandleUserActionFirst SetToFirstPage`() {
         sut.currentPageIndex = 2
 
-        sut.handleUserAction(UserAction.FIRST, lines)
+        sut.handleUserAction(Pair(UserAction.FIRST, null), lines)
 
         Assertions.assertEquals(0, sut.currentPageIndex)
     }
 
     @Test
     fun `handleUserAction HandleUserActionNext IncrementPage`() {
-        sut.handleUserAction(UserAction.NEXT, lines)
+        sut.handleUserAction(Pair(UserAction.NEXT, null), lines)
 
         Assertions.assertEquals(1, sut.currentPageIndex)
     }
@@ -92,21 +92,29 @@ class TablePaginatorTest {
     fun `handleUserAction HandleUserActionPrevious DecrementPage`() {
         sut.currentPageIndex = 2
 
-        sut.handleUserAction(UserAction.PREVIOUS, lines)
+        sut.handleUserAction(Pair(UserAction.PREVIOUS, null), lines)
 
         Assertions.assertEquals(1, sut.currentPageIndex)
     }
 
     @Test
     fun `handleUserAction HandleUserActionLast SetToLastPage`() {
-        sut.handleUserAction(UserAction.LAST, lines)
+        sut.handleUserAction(Pair(UserAction.LAST, null), lines)
 
         Assertions.assertEquals(2, sut.currentPageIndex)
     }
 
     @Test
+    fun `handleUserAction HandleUserActionJumpToPAge2 PageIndexIs1`() {
+        sut.handleUserAction(Pair(UserAction.JUMP, 2), lines)
+
+        Assertions.assertEquals(1, sut.currentPageIndex)
+        Assertions.assertEquals(3, sut.pageSize)
+    }
+
+    @Test
     fun `handleUserAction HandleUserActionOther NothingChanges`() {
-        sut.handleUserAction(UserAction.CURRENT, lines)
+        sut.handleUserAction(Pair(UserAction.CURRENT, null), lines)
 
         Assertions.assertEquals(0, sut.currentPageIndex)
         Assertions.assertEquals(3, sut.pageSize)
@@ -142,6 +150,30 @@ class TablePaginatorTest {
         val result = sut.endIndex(tableContentSize)
 
         Assertions.assertEquals(tableContentSize, result)
+    }
+
+    @Test
+    fun `jumpToPage HandleUserActionJumpToPAgeIndex4 PageIndexIsLastPage`() {
+        sut.jumpToPage(lines.size - 1, 4)
+
+        Assertions.assertEquals(2, sut.currentPageIndex)
+        Assertions.assertEquals(3, sut.pageSize)
+    }
+
+    @Test
+    fun `jumpToPage HandleUserActionJumpToPAge-1 PageIndexIsFirstPage`() {
+        sut.jumpToPage(lines.size - 1, -1)
+
+        Assertions.assertEquals(0, sut.currentPageIndex)
+        Assertions.assertEquals(3, sut.pageSize)
+    }
+
+    @Test
+    fun `jumpToPage HandleUserActionJumpToPage1 PageIndexIs1`() {
+        sut.jumpToPage(lines.size - 1, 1)
+
+        Assertions.assertEquals(1, sut.currentPageIndex)
+        Assertions.assertEquals(3, sut.pageSize)
     }
 
     @Test

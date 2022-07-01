@@ -1,6 +1,5 @@
 package com.cleancode.tabulate
 
-const val DEFAULT_PAGE_SIZE = 3
 
 class App(val args: Array<String>) {
     fun hasCsvFileArg() = args.isNotEmpty() && args[0].contains(".csv")
@@ -11,7 +10,7 @@ class App(val args: Array<String>) {
         }
         return args[0]
     }
-    
+
     fun getPageSizeFromArgs(): Int {
         if (args.isEmpty() || args.size < 2) return DEFAULT_PAGE_SIZE
 
@@ -39,7 +38,6 @@ fun main(args: Array<String>) {
         ui.render(tabulatedTable, tablePaginator.getPageIndex(lines.size - TITLE_LINES))
 
         val userAction = ui.readUserInput()
-        tablePaginator.handleUserAction(userAction.first, lines)
-        resume = app.resumable(userAction.first)
+        resume = tablePaginator.handleUserAction(userAction, lines)
     }
 }

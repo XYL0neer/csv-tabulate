@@ -5,7 +5,7 @@ class UI {
     fun render(table: List<String>, pagination: Pair<Int, Int>) {
         table.forEach { println(it) }
         println("Page ${pagination.first} of ${pagination.second}")
-        println("F)irst page, P)revious page, N)ext page, L)ast page, E)xit")
+        println("F)irst page, P)revious page, N)ext page, L)ast page, J)ump to page, E)xit")
     }
 
 
@@ -21,17 +21,15 @@ class UI {
         }
     }
 
-
-
     fun readUserInput(): Pair<UserAction, Int?> {
         var pageInput: Int? = null
         val userInput = readln().lowercase()
         val userAction = mapUserInteraction(userInput)
         if (userAction == UserAction.JUMP) {
-            print("Jump to page:")
+            print("Jump to page number: ")
              pageInput = readln().toIntOrNull()
             if (pageInput == null) {
-                println("Please enter a number")
+                println("Please try again with a number")
             }
         }
         return Pair(userAction, pageInput)

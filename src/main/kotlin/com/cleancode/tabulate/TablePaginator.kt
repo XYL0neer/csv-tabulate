@@ -4,6 +4,7 @@ import kotlin.math.ceil
 import kotlin.math.min
 
 const val TITLE_LINES = 1
+const val DEFAULT_PAGE_SIZE = 3
 
 class TablePaginator(var currentPageIndex: Int = 0, var pageSize: Int = 3) {
 
@@ -20,15 +21,18 @@ class TablePaginator(var currentPageIndex: Int = 0, var pageSize: Int = 3) {
 
     fun endIndex(tableSize: Int) = min(pageSize + currentPageIndex * pageSize, tableSize)
 
-    fun handleUserAction(action: UserAction, table: List<String>) {
+    fun handleUserAction(action: Pair<UserAction, Int?>, table: List<String>): Boolean {
         val tableContentSize = table.size - TITLE_LINES
-        when (action) {
+        when (action.first) {
+            UserAction.STOP -> return true
             UserAction.FIRST -> setFirstPage()
             UserAction.LAST -> setLastPage(tableContentSize)
             UserAction.NEXT -> incrementPage(tableContentSize)
             UserAction.PREVIOUS -> decrementPage()
-            else -> return
+            UserAction.JUMP -> jumpToPage(tableContentSize, action.second?.minus(1) ?: 0)
+            else -> return true
         }
+        return true
     }
 
     fun setFirstPage() {
@@ -51,7 +55,18 @@ class TablePaginator(var currentPageIndex: Int = 0, var pageSize: Int = 3) {
         }
     }
 
-    fun getPageIndex(tableSize: Int): Pair<Int, Int> =
-        Pair(currentPageIndex + 1, ceil(tableSize.toDouble() / pageSize).toInt())
+    fun jumpToPage(tableSize: Int, pageIndex: Int) {
+        if (pageIndex < 0) {
+            setFirstPage()
+        } else if (pageIndex >= amountOfPages(tableSize)) {
+            setLastPage(tableSize)
+        } else {
+            this.currentPageIndex = pageIndex
+        }
+    }
 
+    fun getPageIndex(tableSize: Int): Pair<Int, Int> =
+        Pair(currentPageIndex + 1, amountOfPages(tableSize))
+
+    private fun amountOfPages(tableSize: Int): Int = ceil(tableSize.toDouble() / pageSize).toInt()
 }
