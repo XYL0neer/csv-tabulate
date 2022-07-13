@@ -105,6 +105,14 @@ class TablePaginatorTest {
     }
 
     @Test
+    fun `handleUserAction HandleUserActionStop ReturnFalse`() {
+        val result = sut.handleUserAction(Pair(UserAction.STOP, null), lines)
+
+        Assertions.assertEquals(false, result)
+        Assertions.assertEquals(0, sut.currentPageIndex)
+    }
+
+    @Test
     fun `handleUserAction HandleUserActionJumpToPAge2 PageIndexIs1`() {
         sut.handleUserAction(Pair(UserAction.JUMP, 2), lines)
 

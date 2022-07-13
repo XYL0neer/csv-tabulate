@@ -24,7 +24,7 @@ class TablePaginator(var currentPageIndex: Int = 0, var pageSize: Int = 3) {
     fun handleUserAction(action: Pair<UserAction, Int?>, table: List<String>): Boolean {
         val tableContentSize = table.size - TITLE_LINES
         when (action.first) {
-            UserAction.STOP -> return true
+            UserAction.STOP -> return false
             UserAction.FIRST -> setFirstPage()
             UserAction.LAST -> setLastPage(tableContentSize)
             UserAction.NEXT -> incrementPage(tableContentSize)
