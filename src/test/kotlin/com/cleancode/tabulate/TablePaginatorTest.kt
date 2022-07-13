@@ -208,7 +208,7 @@ class TablePaginatorTest {
 
     @Test
     fun `getPageIndexed 9Elements 1of3`() {
-        val result = sut.getPageIndex(9)
+        val result = sut.getPagination(9)
 
         Assertions.assertEquals(1, result.first)
         Assertions.assertEquals(3, result.second)
@@ -216,7 +216,7 @@ class TablePaginatorTest {
 
     @Test
     fun `getPageIndexed 7ElementsGetRoundUp 1of3`() {
-        val result = sut.getPageIndex(7)
+        val result = sut.getPagination(7)
 
         Assertions.assertEquals(1, result.first)
         Assertions.assertEquals(3, result.second)

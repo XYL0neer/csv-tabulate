@@ -65,7 +65,7 @@ class TablePaginator(var currentPageIndex: Int = 0, var pageSize: Int = 3) {
         }
     }
 
-    fun getPageIndex(tableSize: Int): Pair<Int, Int> =
+    fun getPagination(tableSize: Int): Pair<Int, Int> =
         Pair(currentPageIndex + 1, amountOfPages(tableSize))
 
     private fun amountOfPages(tableSize: Int): Int = ceil(tableSize.toDouble() / pageSize).toInt()

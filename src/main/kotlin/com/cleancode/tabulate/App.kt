@@ -35,7 +35,7 @@ fun main(args: Array<String>) {
     while (resume) {
         val paginatedTable = tablePaginator.buildPaginatedTable(lines)
         val tabulatedTable = csvTabulate.tabulate(paginatedTable)
-        ui.render(tabulatedTable, tablePaginator.getPageIndex(lines.size - TITLE_LINES))
+        ui.render(tabulatedTable, tablePaginator.getPagination(lines.size - TITLE_LINES))
 
         val userAction = ui.readUserInput()
         resume = tablePaginator.handleUserAction(userAction, lines)
